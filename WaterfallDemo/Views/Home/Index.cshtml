@@ -3,7 +3,7 @@
 }
 
 <div class="contentBar">
-    <h2>@ViewBag.Message <a href="http://xiechengxiong.com/234.html" target="_blank">瀑布流布局</a></h2>
+    <h4>@ViewBag.Message <a href="http://xiechengxiong.com/234.html" target="_blank">瀑布流布局</a></h4>
 </div>
 
 @*引入js*@
@@ -16,7 +16,7 @@
 <link href="../../Content/jufine.waterfall.css" rel="stylesheet" />
 
 @*瀑布流布局*@
-<div id="waterfallDemo" style="width: 100%; margin-top: 50px">
+<div id="waterfallDemo" style="width: 100%; margin-top: 50px;">
     @*记录当前记录条数*@
     <input type="hidden" id="hdCurrItemCount" value="0" />
     @*放置瀑布流条目的容器*@
@@ -29,7 +29,7 @@
 </div>
 
 <script type="text/javascript">
-
+    
     var pageNumber = 1;
     var container = X.$('container');
     var loading = X.$('loading');
@@ -72,23 +72,11 @@
             _HiddenLoading();
             PageInfo.IsInBottom(function (inBottom) {
                 if (inBottom) {
-                    PageInfo.SetScrollTop(1);
+                    PageInfo.SetScrollTop(7);
                 }
             });
         }
     });
-
-    PageInfo.SetInterval(function () {
-        PageInfo.IsInBottom(function (inBottom) {
-            if (inBottom) {
-                PageInfo.SetScrollTop(30);
-            }
-        });
-    },
-    function () {
-        return false;
-    },
-    2000);
 
     //加载一批数据,直到出现滚动条为止
     PageInfo.SetInterval(
@@ -114,7 +102,19 @@
         }
     };
 
-
+    //每隔2秒检测一下，滚动条是否达到了最底部
+    PageInfo.SetInterval(function () {
+        PageInfo.IsInBottom(function (inBottom) {
+            if (inBottom) {
+                PageInfo.SetScrollTop(30);
+            }
+        });
+    },
+        function () {
+            return false;
+        },
+        2000);
+    
     //加载一页的数据
     function _LoadOnePage(data) {
         var div = null;
@@ -125,9 +125,11 @@
                 item.className = 'item';
                 item.width = _columnWidth;
 
-                item.innerHTML = '<img src="' + data.photos[i].src + '" alt="" width="' + _columnWidth + '" />';
-                item.innerHTML += '<div style="width:' + _columnWidth + 'px;overflow:visible;text-overflow:inherit;">' + data.photos[i].title + '</div>';
+                item.innerHTML = '<div style="height:100%;width:100%"><img src="' + data.photos[i].src + '" alt="" width="' + _columnWidth + '" /></div>';
+                //item.innerHTML += '<div style="width:' + _columnWidth + 'px;overflow:visible;text-overflow:inherit;">' + data.photos[i].title + '</div>';
+                item.innerHTML += '<div style="width:' + _columnWidth + 'px;padding:2px;"><p>' + data.photos[i].title + '</p></div>';
 
+              
                 div.appendChild(item);
             }
             container.appendChild(div);
@@ -159,8 +161,9 @@
     //显示数据加载中
     function _ShowLoading() {
         currObj.setLoading(true);
-        //X.fadeIn(loading);
         loading.style.display = '';
+
+        //显示数据加载中，15秒以后，尝试自动取消掉数据加载
         window.setTimeout(function () {
             _HiddenLoading();
         }, 15000);
@@ -168,8 +171,10 @@
 
     //隐藏数据加载中
     function _HiddenLoading() {
+        if (!_CheckLoading()) {
+            return;
+        }
         currObj.setLoading(false);
-        //X.fadeOut(loading);
         loading.style.display = 'none';
     }
 
