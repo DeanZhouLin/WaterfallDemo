@@ -44,7 +44,6 @@
 
             //var flag = hListMinObj < (scrollTop + clientHeight);
 
-            alert(PageInfo.IsInBottom(null));
             if (PageInfo.IsInBottom(null)) {
                 options.load(function (obj) {
                     _this.arrange(obj);
