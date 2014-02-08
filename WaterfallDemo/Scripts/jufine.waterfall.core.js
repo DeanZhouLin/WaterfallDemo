@@ -1,11 +1,3 @@
-/*
- *project: blog poject
- *version: 2.0
- *create: 2013-3-10
- *update: 2013-7-3 11:00
- *update: 2013-9-24 18:27
- *author: F2E xiechengxiong
- */
 (function (win, doc) {
     var X = win['X'] || {};
     X = {
@@ -76,7 +68,7 @@
                     opts.url = opts.url + '?' + opts.data;
                 }
                 req.open(opts.type, opts.url, true);
-               
+
                 req.send(opts.data);
                 req.onreadystatechange = function () {
                     if (req.readyState === 4) {
@@ -198,12 +190,12 @@
             }
             obj.timer = setInterval(function () {
                 X.fadeIn(obj);
-            }, 100);
+            }, 30);
             if (!win['xcxFadeInOpacity']) {
                 win['xcxFadeInOpacity'] = 0;
                 obj.style.display = '';
             }
-            win['xcxFadeInOpacity'] += 0.1;
+            win['xcxFadeInOpacity'] += 0.2;
             obj.style.opacity = win['xcxFadeInOpacity'] + '';
             if (win['xcxFadeInOpacity'] >= 1) {
                 win['xcxFadeInOpacity'] = 0;
@@ -334,7 +326,7 @@
             })(obj);
             arr.push(obj.offsetWidth);
             arr.push(obj.offsetHeight);
-            
+
             return arr;
         },
         getQueryStringArgs: function () {
@@ -451,15 +443,15 @@
                     var match = /^#(.+)$|^\.(.+)$|^([\w\d]+)$/.exec(arr[index]);
                     if (match[1]) {
                         result = doc.getElementById(match[1]);
-                    } else if(match[2]) {
-                        for(var i = 0, len = element.length; i < len; i++) {
-                            X.getByClass(match[2], element[i]).each(function(){
+                    } else if (match[2]) {
+                        for (var i = 0, len = element.length; i < len; i++) {
+                            X.getByClass(match[2], element[i]).each(function () {
                                 result.push(this);
                             });
                         }
-                    } else if(match[3]) {
-                        for(var j = 0, jLen = element.length; j < jLen; j++) {
-                            X.getByTag(match[3], element[j]).each(function() {
+                    } else if (match[3]) {
+                        for (var j = 0, jLen = element.length; j < jLen; j++) {
+                            X.getByTag(match[3], element[j]).each(function () {
                                 result.push(this);
                             });
                         }
@@ -535,6 +527,5 @@
             return text == null ? '' : text.replace(/(^\s*)|(\s*$)/g, '');
         }
     };
-
     win.X = X;
 })(window, document);

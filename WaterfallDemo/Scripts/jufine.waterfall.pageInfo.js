@@ -1,9 +1,9 @@
 (function (win) {
 
     var PageInfo = {
-
+        
         // 获取页面的高度、宽度
-        GetPageSize: function getPageSize() {
+        GetPageSize: function() {
             var xScroll, yScroll;
             if (window.innerHeight && window.scrollMaxY) {
                 xScroll = window.innerWidth + window.scrollMaxX;
@@ -61,7 +61,7 @@
         },
 
         //根据容器的实际宽度，获取Image的宽度和ColumnSpace的值
-        GetImageWidthAndColumnSpace: function (containerWidth) {
+        GetImageWidthAndColumnSpace: function(containerWidth) {
 
             var ColumnSpace = containerWidth * 0.01;
             var ImageWidth;
@@ -98,30 +98,7 @@
             };
         },
 
-        IsScroll: function (el) {
-            // test targets
-            var elems = el ? [el] : [document.documentElement, document.body];
-            var scrollX = false, scrollY = false;
-            for (var i = 0; i < elems.length; i++) {
-                var o = elems[i];
-                // test horizontal
-                var sl = o.scrollLeft;
-                o.scrollLeft += (sl > 0) ? -1 : 1;
-                o.scrollLeft !== sl && (scrollX = true);
-                o.scrollLeft = sl;
-                // test vertical
-                var st = o.scrollTop;
-                o.scrollTop += (st > 0) ? -1 : 1;
-                o.scrollTop !== st && (scrollY = true);
-                o.scrollTop = st;
-            }
-            // ret
-            return {
-                scrollX: scrollX,
-                scrollY: scrollY
-            };
-        },
-
+        //设定一个定时器（执行方法，退出条件，执行间隔）
         SetInterval: function (fnExec, fnOutCondition, dely) {
             var interval = window.setInterval(function () {
                 if (fnOutCondition()) {
@@ -144,6 +121,7 @@
             return (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
         },
 
+        //设置滚动条的位置
         SetScrollTop: function (delter) {
             var bodyScrollTop = 0, documentScrollTop = 0;
             if (document.body) {
@@ -177,6 +155,7 @@
             return document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight : document.body.clientHeight;
         },
 
+        //检查是否已经滚动到底部
         IsInBottom: function (fn) {
             //文档的总高度
             var scrollHeight = PageInfo.GetScrollHeight();
@@ -196,6 +175,7 @@
 
             return res;
         }
+        
     };
 
     win.PageInfo = PageInfo;

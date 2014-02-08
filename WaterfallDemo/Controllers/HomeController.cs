@@ -23,7 +23,9 @@ namespace WaterfallDemo.Controllers
 
         public ActionResult GetWaterfallImageInfos()
         {
-            Thread.Sleep(100);
+            Thread.Sleep(500);
+            const int getCount = 5;
+
             dynamic requestData = new ExpandoObject();
             requestData.PageNumber = Request["PageNumber"];
             requestData.ImageWidth = Request["ImageWidth"];
@@ -38,7 +40,7 @@ namespace WaterfallDemo.Controllers
             dyData.photos = new List<ExpandoObject>();
             byte[] buffBytes = new byte[20];
             new Random().NextBytes(buffBytes);
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < getCount; i++)
             {
                 int ran = buffBytes[i] % 16;
                 dynamic dyTemp = new ExpandoObject();
@@ -48,14 +50,14 @@ namespace WaterfallDemo.Controllers
                 dyTemp.src = src;
                 StringBuilder sb = new StringBuilder();
                 sb.Append("标题");
-                for (int j = 0; j < ran; j++)
+                for (int j = 0; j < ran/3; j++)
                 {
                     sb.Append("这是第" + i + "张图片，文字循环" + ran + "次");
                 }
                 dyTemp.title = sb.ToString();
                 dyData.photos.Add(dyTemp);
             }
-            dyData.pageCount = 8;
+            dyData.pageCount = getCount;
 
             var json = JsonConvert.SerializeObject(dyData);
             return Content(json);
@@ -64,7 +66,6 @@ namespace WaterfallDemo.Controllers
 
     public static class ImageUtil
     {
-
         /// <summary>
         /// 按照尺寸裁剪图片
         /// </summary>
@@ -87,7 +88,7 @@ namespace WaterfallDemo.Controllers
 
                 int startX = (image.Width - width) / 2;
                 int iWidth = Math.Min(width, image.Width - startX);
-                int startY = 0;
+                const int startY = 0;
                 int iHeight = image.Height;
 
                 var resImage = image.CropImage(startX, startY, iWidth, iHeight);
@@ -216,7 +217,7 @@ namespace WaterfallDemo.Controllers
                 //透明图片水印
                 if (watermarkImage != "")
                 {
-                    if (System.IO.File.Exists(watermarkImage))
+                    if (File.Exists(watermarkImage))
                     {
                         //获取水印图片
                         using (Image wrImage = Image.FromFile(watermarkImage))
@@ -315,7 +316,7 @@ namespace WaterfallDemo.Controllers
                 //透明图片水印
                 if (watermarkImage != "")
                 {
-                    if (System.IO.File.Exists(watermarkImage))
+                    if (File.Exists(watermarkImage))
                     {
                         //获取水印图片
                         using (Image wrImage = Image.FromFile(watermarkImage))
