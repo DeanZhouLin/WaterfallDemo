@@ -28,10 +28,10 @@
 .contentBar {
     box-sizing: border-box;
     border-bottom: 1px solid;
-    padding: 0 60px;
     position: fixed;
     right: 0;
-    top: 23px;
+    height: 50px;
+    top: 0;
     width: 100%;
     z-index: 200;
     background: #ffffff;

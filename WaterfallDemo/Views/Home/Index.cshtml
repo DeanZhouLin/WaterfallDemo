@@ -2,7 +2,9 @@
     ViewBag.Title = "主页";
 }
 
-<h2 class="contentBar">@ViewBag.Message <a href="http://xiechengxiong.com/234.html" target="_blank">瀑布流布局</a></h2>
+<div class="contentBar">
+    <h2>@ViewBag.Message <a href="http://xiechengxiong.com/234.html" target="_blank">瀑布流布局</a></h2>
+</div>
 
 @*引入js*@
 <script src="../../Scripts/jufine.waterfall.arrayExten.js"></script>
@@ -14,7 +16,7 @@
 <link href="../../Content/jufine.waterfall.css" rel="stylesheet" />
 
 @*瀑布流布局*@
-<div id="waterfallDemo" style="width: 100%;">
+<div id="waterfallDemo" style="width: 100%; margin-top: 50px">
     @*记录当前记录条数*@
     <input type="hidden" id="hdCurrItemCount" value="0" />
     @*放置瀑布流条目的容器*@
