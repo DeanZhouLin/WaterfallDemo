@@ -104,15 +104,15 @@
     );
 
     //窗体尺寸改变时重新加载页面，延迟500ms执行
-    //window.onresize = function () {
-    //    var currItemCount = parseInt(X.$('hdCurrItemCount').value);
-    //    loading.style.display = '';
-    //    if (currItemCount > 0) {
-    //        setTimeout(function () {
-    //            window.location.reload();
-    //        }, 500);
-    //    }
-    //};
+    window.onresize = function () {
+        var currItemCount = parseInt(X.$('hdCurrItemCount').value);
+        loading.style.display = '';
+        if (currItemCount > 0) {
+            setTimeout(function () {
+                window.location.reload();
+            }, 500);
+        }
+    };
 
 
     //加载一页的数据
