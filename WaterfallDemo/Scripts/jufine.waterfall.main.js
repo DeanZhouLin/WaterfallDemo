@@ -6,8 +6,7 @@
     var Waterfall = function (obj, opts) {
         options = opts;
         container = obj;
-        var column = parseInt(obj.offsetWidth / (opts.columnWidth + opts.columnSpace));
-        hList = new Array(column);
+        hList = new Array(opts.columnCount);
         hList = (hList.join(',').replace(/,/g, '0|') + '0').split('|');
         this.bindEvent();
     };
@@ -41,11 +40,9 @@
         },
         arrange: function (obj) {
             try {
-
-                if (obj==null) {
+                if (obj == null) {
                     return;
-                }
-                
+                }            
                 var columnWidth = options.columnWidth;
                 var columnSpace = options.columnSpace;
                 var iList = X.getByClass(options.itemSelector, obj);
@@ -60,13 +57,11 @@
                         item.style.top = top + 'px';
                         hList[minIndex] = top + item.offsetHeight;
                     }
-
                 });
             } catch (e) {
                 alert(e);
             } finally {
                 options.complete && options.complete(obj);
-     
             }
         },
         imageUpload: function (imgList, fn) {

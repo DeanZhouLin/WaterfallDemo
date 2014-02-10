@@ -190,7 +190,7 @@
             }
             obj.timer = setInterval(function () {
                 X.fadeIn(obj);
-            }, 30);
+            }, 50);
             if (!win['xcxFadeInOpacity']) {
                 win['xcxFadeInOpacity'] = 0;
                 obj.style.display = '';

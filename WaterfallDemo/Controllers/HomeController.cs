@@ -24,7 +24,7 @@ namespace WaterfallDemo.Controllers
         public ActionResult GetWaterfallImageInfos()
         {
             Thread.Sleep(500);
-            const int getCount = 5;
+            const int getCount = 20;
 
             dynamic requestData = new ExpandoObject();
             requestData.PageNumber = Request["PageNumber"];

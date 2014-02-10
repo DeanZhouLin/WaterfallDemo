@@ -11,171 +11,108 @@
 <script src="../../Scripts/jufine.waterfall.pageInfo.js"></script>
 <script src="../../Scripts/jufine.waterfall.core.js"></script>
 <script src="../../Scripts/jufine.waterfall.main.js"></script>
+<script src="../../Scripts/jufine.waterfall.core.curr.js"></script>
 
 @*引入样式*@
 <link href="../../Content/jufine.waterfall.css" rel="stylesheet" />
 
 @*瀑布流布局*@
 <div id="waterfallDemo" style="width: 100%; margin-top: 50px;">
-    @*记录当前记录条数*@
+    @* 1 记录当前记录条数*@
     <input type="hidden" id="hdCurrItemCount" value="0" />
-    @*放置瀑布流条目的容器*@
-    <div class="wrap" id="container">
+    @* 2 放置瀑布流条目的容器*@
+    <div class="wrap" id="container" style="width: 100%">
     </div>
-    @*显示数据加载中的图片*@
+    @* 3 显示数据加载中的图片*@
     <div class="loading" id="loading" style="display: none;">
         <img id="loadingImage" src="../../images/loading.gif" alt="数据加载中。。。" />
     </div>
 </div>
 
 <script type="text/javascript">
-    
+
+    //记录当前页 每一次获取后 ++
     var pageNumber = 1;
+    //放置图片的容器 div
     var container = X.$('container');
+    //数据加载中对象 div
     var loading = X.$('loading');
 
+    //根据容器宽度 计算图片应有的尺寸 & 显示的列数 & 图片之间的间隔
     var pageMess = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
-
-    var _columnSpace = pageMess.ColumnSpace;
-    var _columnWidth = pageMess.ImageWidth;
-    var _itemSelector = 'item';
+    var _url = 'Home/GetWaterfallImageInfos';
 
     var currObj = new Waterfall(container, {
-        itemSelector: _itemSelector,
-        columnWidth: _columnWidth,
-        columnSpace: _columnSpace,
+        itemSelector: 'item',
+        columnWidth: pageMess.ImageWidth,
+        columnSpace: pageMess.ColumnSpace,
+        columnCount: pageMess.ColumnCount,
         load: function (success) {
             //显示数据加载中
-            _ShowLoading();
+            Z.ShowLoading(loading, currObj, 15000);
             //异步获取图片列表
             X.ajax({
-                url: "Home/GetWaterfallImageInfos",
+                url: _url,
                 type: "GET",
                 data: _GetQueryString(),
                 dataType: "json",
                 failFn: function () {
-                    currObj.complete();
+                    Z.LoadCompleted(loading, currObj, 7);
                 },
                 sucFn: function (data) {
                     //加载一页的数据
-                    var div = null;
-                    try {
-                        div = _LoadOnePage(data);
-                    } catch (e) {
-                    } finally {
-                        success && success(div);
-                    }
+                    Z.LoadOnePage(success, function () {
+                        var div = null;
+                        if (data != null) {
+                            div = document.createElement('div');
+                            for (var i = 0; i < data.photos.length; i++) {
+                                var item = document.createElement('div');
+                                item.className = 'item';
+                                item.width = pageMess.ImageWidth;
+                                item.innerHTML = '<div style="width:' + item.width + 'px;padding:2px;"><img src="' + data.photos[i].src + '"/></div>';
+                                item.innerHTML += '<div style="width:' + item.width + 'px;padding:2px;"><p>' + data.photos[i].title + '</p></div>';
+
+                                div.appendChild(item);
+                            }
+                            container.appendChild(div);
+                            X.fadeIn(div);
+                            pageNumber++;
+                            //页面显示信息设置
+                            X.$('hdCurrItemCount').value = parseInt(X.$('hdCurrItemCount').value) + parseInt(data.pageCount);
+                        }
+                        return div;
+                    });
                 }
             });
         },
         complete: function () {
-            _HiddenLoading();
-            PageInfo.IsInBottom(function (inBottom) {
-                if (inBottom) {
-                    PageInfo.SetScrollTop(7);
-                }
-            });
+            Z.LoadCompleted(loading, currObj, 7);
         }
     });
 
-    //加载一批数据,直到出现滚动条为止
-    PageInfo.SetInterval(
-        function () {
-            if (!_CheckLoading()) {
-                currObj.loadData();
-            }
+    Z.CoreExecute({
+        loadingObj: loading,
+        currObj: currObj,
+        BottomScrollDetectorInfo: {
+            needBind: true,
+            delay: 2000,
+            scrollTop: 7
         },
-        function () {
-            return (PageInfo.GetScrollHeight() > PageInfo.GetWindowHeight());
-        },
-        1000
-    );
-
-    //窗体尺寸改变时重新加载页面，延迟500ms执行
-    window.onresize = function () {
-        var currItemCount = parseInt(X.$('hdCurrItemCount').value);
-        loading.style.display = '';
-        if (currItemCount > 0) {
-            setTimeout(function () {
-                window.location.reload();
-            }, 500);
+        WindowResizeInfo: {
+            needBind: true,
+            delay: 500,
+            itemCountSelector: 'hdCurrItemCount'
         }
-    };
-
-    //每隔2秒检测一下，滚动条是否达到了最底部
-    PageInfo.SetInterval(function () {
-        PageInfo.IsInBottom(function (inBottom) {
-            if (inBottom) {
-                PageInfo.SetScrollTop(30);
-            }
-        });
-    },
-        function () {
-            return false;
-        },
-        2000);
-    
-    //加载一页的数据
-    function _LoadOnePage(data) {
-        var div = null;
-        if (data != null) {
-            div = document.createElement('div');
-            for (var i = 0; i < data.photos.length; i++) {
-                var item = document.createElement('div');
-                item.className = 'item';
-                item.width = _columnWidth;
-
-                item.innerHTML = '<div style="height:100%;width:100%"><img src="' + data.photos[i].src + '" alt="" width="' + _columnWidth + '" /></div>';
-                //item.innerHTML += '<div style="width:' + _columnWidth + 'px;overflow:visible;text-overflow:inherit;">' + data.photos[i].title + '</div>';
-                item.innerHTML += '<div style="width:' + _columnWidth + 'px;padding:2px;"><p>' + data.photos[i].title + '</p></div>';
-
-              
-                div.appendChild(item);
-            }
-            container.appendChild(div);
-
-            X.fadeIn(div);
-            pageNumber++;
-            //页面显示信息设置
-            X.$('hdCurrItemCount').value = parseInt(X.$('hdCurrItemCount').value) + parseInt(data.pageCount);
-        }
-
-        return div;
-    }
+    });
 
     //设置查询字符串
     function _GetQueryString() {
         //设置传递参数
         var queryData = new Array(3);
         queryData.push('PageNumber=' + pageNumber);
-        queryData.push('ImageWidth=' + _columnWidth);
+        queryData.push('ImageWidth=' + pageMess.ImageWidth);
         queryData.push('CurrItemCount=' + X.$('hdCurrItemCount').value);
         return queryData.join('&');
-    }
-
-    //检查当前数据是否在加载中
-    function _CheckLoading() {
-        return loading.style.display == '' || currObj.getLoading();
-    }
-
-    //显示数据加载中
-    function _ShowLoading() {
-        currObj.setLoading(true);
-        loading.style.display = '';
-
-        //显示数据加载中，15秒以后，尝试自动取消掉数据加载
-        window.setTimeout(function () {
-            _HiddenLoading();
-        }, 15000);
-    }
-
-    //隐藏数据加载中
-    function _HiddenLoading() {
-        if (!_CheckLoading()) {
-            return;
-        }
-        currObj.setLoading(false);
-        loading.style.display = 'none';
     }
 
 </script>
