@@ -143,7 +143,7 @@
         GetWindowHeight: function getWindowHeight() {
             return document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight : document.body.clientHeight;
         },
-        //检查是否已经滚动到底部
+        //检查是否已经滚动到底部 
         IsInBottom: function (fn) {
             //文档的总高度
             var scrollHeight = PageInfo.GetScrollHeight();
@@ -152,7 +152,8 @@
             //浏览器视口的高度
             var windowHeight = PageInfo.GetWindowHeight();
             var res = false;
-            if (Math.abs(scrollTop + windowHeight - scrollHeight) < 5) {
+
+            if (Math.abs(scrollTop + windowHeight - scrollHeight) < windowHeight * 0.1) {
                 res = true;
             }
             if (fn != null) {

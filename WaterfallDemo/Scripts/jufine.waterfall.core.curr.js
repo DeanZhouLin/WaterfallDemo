@@ -1,5 +1,8 @@
 (function (win) {
     var Z = win["Z"] || {};
+    var _autoHiddenLoadingTimeout;
+    var _windowResizeTimeout;
+
     Z = {
         //检查当前数据是否在加载中
         CheckLoading: function (loadingObj, currObj) {
@@ -17,8 +20,11 @@
         ShowLoading: function (loadingObj, currObj, delay) {
             currObj.setLoading(true);
             loadingObj.style.display = "";
-            //在显示数据加载中delay秒以后，尝试自动取消掉数据加载
-            window.setTimeout(function () {
+            //在显示数据加载中delay秒以后，尝试自动取消掉数据加载   
+            if (_autoHiddenLoadingTimeout != undefined) {
+                clearTimeout(_autoHiddenLoadingTimeout);//取消掉不必要的定时器
+            }
+            _autoHiddenLoadingTimeout = window.setTimeout(function () {
                 Z.HiddenLoading(loadingObj, currObj);
             }, delay);
         },
@@ -30,6 +36,7 @@
                     PageInfo.SetScrollTop(setScrollTop);
                 }
             });
+            X.$("waterfallDemo").style.marginTop = X.$("cb").offsetHeight + "px";
         },
         //第一次加载数据
         LoadFirstPage: function (loadingObj, currObj) {
@@ -39,7 +46,7 @@
                 }
             }, function () {
                 return PageInfo.GetScrollHeight() > PageInfo.GetWindowHeight();
-            }, 1e3);
+            }, 1000);
         },
         //加载一页数据
         LoadOnePage: function (success, fn) {
@@ -63,15 +70,29 @@
             }, delay);
         },
         //窗口尺寸发生改变时执行
-        BindWindowResize: function (currItemCountID, loadingObj, currObj, delay) {
-            window.onresize = function () {
-                Z.ShowLoading(loadingObj, currObj, delay);
+        BindWindowResize: function (opts) {
+            var currItemCountID = opts.currItemCountID;
+            var loadingObj = opts.loadingObj;
+            var currObj = opts.currObj;
+            var delay = opts.delay;
+            var autoTryHiddenLoadingDelay = opts.autoTryHiddenLoadingDelay;
+            var container = opts.container;
+
+            //orientationchange
+            
+            X.addEvent(win, 'resize', function () {
+                Z.ShowLoading(loadingObj, currObj, autoTryHiddenLoadingDelay);
                 if (parseInt(X.$(currItemCountID).value) > 0) {
-                    setTimeout(function () {
-                        window.location.reload();
+                    clearInterval(_windowResizeTimeout);
+                    _windowResizeTimeout = setTimeout(function () {
+                        //window.location.reload();
+                        //currObj.clearItems();
+                       
+                        Z.ClearContainItems(container, loadingObj, currObj);
+                        Z.LoadFirstPage(loadingObj, currObj);
                     }, delay);
                 }
-            };
+            });
         },
         //第一次加载数据时统一的执行方法
         CoreExecute: function (options) {
@@ -81,7 +102,7 @@
             var nbw = options.WindowResizeInfo.needBind;
             //加载一批数据,直到出现滚动条为止
             Z.LoadFirstPage(lo, co);
-            //每隔30s执行一次，如果此时滚动条处于页面最底部，将其上拉7个像素
+            //每隔30s执行一次，如果此时滚动条处于页面最底部，将其上拉n个像素
             if (nbs) {
                 var delay_s = options.BottomScrollDetectorInfo.delay;
                 var scrollTop = options.BottomScrollDetectorInfo.scrollTop;
@@ -90,9 +111,24 @@
             //窗口尺寸发生改变时，重新加载数据
             if (nbw) {
                 var delay_w = options.WindowResizeInfo.delay;
+                var autoTryHiddenLoadingDelay = options.WindowResizeInfo.autoTryHiddenLoadingDelay;
                 var itemCountSelector = options.WindowResizeInfo.itemCountSelector;
-                Z.BindWindowResize(itemCountSelector, lo, co, delay_w);
+                var container = options.WindowResizeInfo.container;
+                
+                Z.BindWindowResize({
+                    currItemCountID: itemCountSelector,
+                    loadingObj: lo,
+                    currObj: co,
+                    delay: delay_w,
+                    autoTryHiddenLoadingDelay: autoTryHiddenLoadingDelay,
+                    container: container
+                });
             }
+        },
+        ClearContainItems: function (container, loadingObj, currObj) {
+            Z.HiddenLoading(loadingObj, currObj);
+            container.innerHTML = '';
+            currObj.initParam();
         }
     };
     win.Z = Z;

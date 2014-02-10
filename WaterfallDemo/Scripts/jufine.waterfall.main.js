@@ -6,8 +6,7 @@
     var Waterfall = function (obj, opts) {
         options = opts;
         container = obj;
-        hList = new Array(opts.columnCount);
-        hList = (hList.join(',').replace(/,/g, '0|') + '0').split('|');
+        this.initParam();
         this.bindEvent();
     };
     Waterfall.prototype = {
@@ -15,6 +14,15 @@
             _this = this;
             _this.setLoading(false);
             X.addEvent(win, 'scroll', this.scrollHandler);
+        },
+        initParam: function () {
+          
+            var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
+            options.columnWidth = t.ImageWidth;
+            options.columnSpace = t.ColumnSpace;
+            options.columnCount = t.ColumnCount;
+            hList = new Array(options.columnCount);
+            hList = (hList.join(',').replace(/,/g, '0|') + '0').split('|');
         },
         setLoading: function (isLoading) {
             _this.loading = isLoading;
@@ -29,7 +37,6 @@
             if (PageInfo.IsInBottom(null)) {
                 options.load(function (obj) {
                     _this.arrange(obj);
-                  
                 });
             }
         },

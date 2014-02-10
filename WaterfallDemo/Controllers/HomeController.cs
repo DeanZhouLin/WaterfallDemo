@@ -17,19 +17,20 @@ namespace WaterfallDemo.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "瀑布流布局Demo-参考资料：";
-
+            ViewBag.Url = "http://xiechengxiong.com/234.html";
             return View();
         }
 
         public ActionResult GetWaterfallImageInfos()
         {
-            Thread.Sleep(500);
-            const int getCount = 20;
+            Thread.Sleep(1000);
+            const int getCount = 10;
 
             dynamic requestData = new ExpandoObject();
             requestData.PageNumber = Request["PageNumber"];
             requestData.ImageWidth = Request["ImageWidth"];
             requestData.CurrItemCount = Request["CurrItemCount"];
+            requestData.ScrollTop = Request["ScrollTop"];
 
             int currItemCount = Convert.ToInt32(requestData.CurrItemCount);
             if (currItemCount > 340 && DateTime.Now.Ticks % 2 == 0)
@@ -58,6 +59,7 @@ namespace WaterfallDemo.Controllers
                 dyData.photos.Add(dyTemp);
             }
             dyData.pageCount = getCount;
+            dyData.scrollTop = requestData.ScrollTop;
 
             var json = JsonConvert.SerializeObject(dyData);
             return Content(json);

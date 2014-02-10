@@ -2,8 +2,11 @@
     ViewBag.Title = "主页";
 }
 
-<div class="contentBar">
-    <h4>@ViewBag.Message <a href="http://xiechengxiong.com/234.html" target="_blank">瀑布流布局</a></h4>
+<div class="contentBar" id="cb">
+    <h4>@ViewBag.Message <a href="@ViewBag.Url" target="_blank">瀑布流布局</a></h4>
+    <div>
+        <p id="tiptitle" />
+    </div>
 </div>
 
 @*引入js*@
@@ -17,7 +20,8 @@
 <link href="../../Content/jufine.waterfall.css" rel="stylesheet" />
 
 @*瀑布流布局*@
-<div id="waterfallDemo" style="width: 100%; margin-top: 50px;">
+
+<div id="waterfallDemo" style="width: 100%;">
     @* 1 记录当前记录条数*@
     <input type="hidden" id="hdCurrItemCount" value="0" />
     @* 2 放置瀑布流条目的容器*@
@@ -38,18 +42,18 @@
     //数据加载中对象 div
     var loading = X.$('loading');
 
-    //根据容器宽度 计算图片应有的尺寸 & 显示的列数 & 图片之间的间隔
-    var pageMess = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
+    //数据源地址
     var _url = 'Home/GetWaterfallImageInfos';
+    //最底部的滚轮上拉像素
+    var _moveScrollTop = PageInfo.GetWindowHeight() * 0.15;
+    //数据加载超时时间（ms）
+    var _autoTryHiddenLoadingDelay = 15000;
 
     var currObj = new Waterfall(container, {
         itemSelector: 'item',
-        columnWidth: pageMess.ImageWidth,
-        columnSpace: pageMess.ColumnSpace,
-        columnCount: pageMess.ColumnCount,
         load: function (success) {
             //显示数据加载中
-            Z.ShowLoading(loading, currObj, 15000);
+            Z.ShowLoading(loading, currObj, _autoTryHiddenLoadingDelay);
             //异步获取图片列表
             X.ajax({
                 url: _url,
@@ -57,9 +61,13 @@
                 data: _GetQueryString(),
                 dataType: "json",
                 failFn: function () {
-                    Z.LoadCompleted(loading, currObj, 7);
+                    Z.LoadCompleted(loading, currObj, _moveScrollTop);
                 },
                 sucFn: function (data) {
+                    //如果现在已经不需要加载数据了 --important
+                    if (!Z.CheckLoading(loading,currObj)) {
+                        return;
+                    }
                     //加载一页的数据
                     Z.LoadOnePage(success, function () {
                         var div = null;
@@ -86,22 +94,26 @@
             });
         },
         complete: function () {
-            Z.LoadCompleted(loading, currObj, 7);
+            Z.LoadCompleted(loading, currObj, _moveScrollTop);
         }
     });
 
     Z.CoreExecute({
         loadingObj: loading,
         currObj: currObj,
+        //定时检测滚动条是否到达底部--定时器
         BottomScrollDetectorInfo: {
             needBind: true,
             delay: 2000,
-            scrollTop: 7
+            scrollTop: _moveScrollTop
         },
+        //窗体尺寸变化后，重新加载数据--window.resize
         WindowResizeInfo: {
             needBind: true,
             delay: 500,
-            itemCountSelector: 'hdCurrItemCount'
+            autoTryHiddenLoadingDelay: _autoTryHiddenLoadingDelay,
+            itemCountSelector: 'hdCurrItemCount',
+            container: container
         }
     });
 
@@ -112,6 +124,7 @@
         queryData.push('PageNumber=' + pageNumber);
         queryData.push('ImageWidth=' + pageMess.ImageWidth);
         queryData.push('CurrItemCount=' + X.$('hdCurrItemCount').value);
+        queryData.push('ScrollTop=' + PageInfo.GetScrollTop());
         return queryData.join('&');
     }
 
