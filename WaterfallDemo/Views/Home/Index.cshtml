@@ -5,7 +5,7 @@
 <div class="contentBar" id="cb">
     <h4>@ViewBag.Message <a href="@ViewBag.Url" target="_blank">瀑布流布局</a></h4>
     <div>
-        <p id="tiptitle" />
+        <label id="lblInfo"></label>
     </div>
 </div>
 
@@ -22,12 +22,10 @@
 @*瀑布流布局*@
 
 <div id="waterfallDemo" style="width: 100%;">
-    @* 1 记录当前记录条数*@
-    <input type="hidden" id="hdCurrItemCount" value="0" />
-    @* 2 放置瀑布流条目的容器*@
-    <div class="wrap" id="container" style="width: 100%">
+    @* 放置瀑布流条目的容器*@
+    <div class="wrap" id="container" style="width:100% ">
     </div>
-    @* 3 显示数据加载中的图片*@
+    @* 显示数据加载中的图片*@
     <div class="loading" id="loading" style="display: none;">
         <img id="loadingImage" src="../../images/loading.gif" alt="数据加载中。。。" />
     </div>
@@ -35,12 +33,10 @@
 
 <script type="text/javascript">
 
-    //记录当前页 每一次获取后 ++
-    var pageNumber = 1;
     //放置图片的容器 div
     var container = X.$('container');
     //数据加载中对象 div
-    var loading = X.$('loading');
+    var loadingObj = X.$('loading');
 
     //数据源地址
     var _url = 'Home/GetWaterfallImageInfos';
@@ -53,40 +49,50 @@
         itemSelector: 'item',
         load: function (success) {
             //显示数据加载中
-            Z.ShowLoading(loading, currObj, _autoTryHiddenLoadingDelay);
+            Z.ShowLoading(loadingObj, currObj, _autoTryHiddenLoadingDelay);
             //异步获取图片列表
             X.ajax({
                 url: _url,
                 type: "GET",
-                data: _GetQueryString(),
+                data: Z.GetQueryString(currObj),
                 dataType: "json",
                 failFn: function () {
-                    Z.LoadCompleted(loading, currObj, _moveScrollTop);
+                    Z.LoadCompleted(loadingObj, currObj, _moveScrollTop);
                 },
                 sucFn: function (data) {
                     //如果现在已经不需要加载数据了 --important
-                    if (!Z.CheckLoading(loading,currObj)) {
+                    if (!Z.CheckLoading(loadingObj, currObj)) {
                         return;
                     }
                     //加载一页的数据
                     Z.LoadOnePage(success, function () {
                         var div = null;
                         if (data != null) {
+                            var opts = currObj.getCurrParam().options;
+
                             div = document.createElement('div');
+                            div.style.display = 'none';
                             for (var i = 0; i < data.photos.length; i++) {
                                 var item = document.createElement('div');
                                 item.className = 'item';
-                                item.width = pageMess.ImageWidth;
-                                item.innerHTML = '<div style="width:' + item.width + 'px;padding:2px;"><img src="' + data.photos[i].src + '"/></div>';
-                                item.innerHTML += '<div style="width:' + item.width + 'px;padding:2px;"><p>' + data.photos[i].title + '</p></div>';
-
+                           
+                                item.innerHTML =  '<div><img src="' + data.photos[i].src + '"/></div>';
+                                item.innerHTML += '<div>' + data.photos[i].title + '</div>';
+                                
                                 div.appendChild(item);
                             }
                             container.appendChild(div);
+
                             X.fadeIn(div);
-                            pageNumber++;
-                            //页面显示信息设置
-                            X.$('hdCurrItemCount').value = parseInt(X.$('hdCurrItemCount').value) + parseInt(data.pageCount);
+                            currObj.setCurrOptions({
+                                currPageNum: opts.currPageNum + 1,
+                                currItemCount: opts.currItemCount + parseInt(data.pageCount),
+                                currScrollHeight: PageInfo.GetScrollHeight(),
+                                currwindowHeight:PageInfo.GetWindowHeight()
+                            });
+
+                            X.$('lblInfo').innerHTML = opts.currPageNum + "," + opts.currItemCount + "," + opts.currScrollTop + "," + opts.currwindowHeight + "," + opts.currScrollHeight;
+                            X.$('lblInfo').innerHTML += "," + opts.columnCount + "," + opts.columnSpace + "," + opts.columnWidth;
                         }
                         return div;
                     });
@@ -94,12 +100,12 @@
             });
         },
         complete: function () {
-            Z.LoadCompleted(loading, currObj, _moveScrollTop);
+            Z.LoadCompleted(loadingObj, currObj, _moveScrollTop);
         }
     });
 
     Z.CoreExecute({
-        loadingObj: loading,
+        loadingObj: loadingObj,
         currObj: currObj,
         //定时检测滚动条是否到达底部--定时器
         BottomScrollDetectorInfo: {
@@ -107,25 +113,13 @@
             delay: 2000,
             scrollTop: _moveScrollTop
         },
-        //窗体尺寸变化后，重新加载数据--window.resize
+        //横竖屏切换后，重新加载数据--window.orientationchange
         WindowResizeInfo: {
             needBind: true,
             delay: 500,
             autoTryHiddenLoadingDelay: _autoTryHiddenLoadingDelay,
-            itemCountSelector: 'hdCurrItemCount',
             container: container
         }
     });
-
-    //设置查询字符串
-    function _GetQueryString() {
-        //设置传递参数
-        var queryData = new Array(3);
-        queryData.push('PageNumber=' + pageNumber);
-        queryData.push('ImageWidth=' + pageMess.ImageWidth);
-        queryData.push('CurrItemCount=' + X.$('hdCurrItemCount').value);
-        queryData.push('ScrollTop=' + PageInfo.GetScrollTop());
-        return queryData.join('&');
-    }
 
 </script>

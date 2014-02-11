@@ -153,7 +153,7 @@
             var windowHeight = PageInfo.GetWindowHeight();
             var res = false;
 
-            if (Math.abs(scrollTop + windowHeight - scrollHeight) < windowHeight * 0.1) {
+            if (Math.abs(scrollTop + windowHeight - scrollHeight) < windowHeight * 0.1) {  
                 res = true;
             }
             if (fn != null) {

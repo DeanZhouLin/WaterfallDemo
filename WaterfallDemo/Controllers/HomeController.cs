@@ -23,8 +23,8 @@ namespace WaterfallDemo.Controllers
 
         public ActionResult GetWaterfallImageInfos()
         {
-            Thread.Sleep(1000);
-            const int getCount = 10;
+            //Thread.Sleep(1000);
+            const int getCount = 25;
 
             dynamic requestData = new ExpandoObject();
             requestData.PageNumber = Request["PageNumber"];
@@ -39,7 +39,7 @@ namespace WaterfallDemo.Controllers
             }
             dynamic dyData = new ExpandoObject();
             dyData.photos = new List<ExpandoObject>();
-            byte[] buffBytes = new byte[20];
+            byte[] buffBytes = new byte[50];
             new Random().NextBytes(buffBytes);
             for (int i = 0; i < getCount; i++)
             {

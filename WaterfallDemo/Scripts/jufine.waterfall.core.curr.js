@@ -71,7 +71,6 @@
         },
         //窗口尺寸发生改变时执行
         BindWindowResize: function (opts) {
-            var currItemCountID = opts.currItemCountID;
             var loadingObj = opts.loadingObj;
             var currObj = opts.currObj;
             var delay = opts.delay;
@@ -79,15 +78,14 @@
             var container = opts.container;
 
             //orientationchange
-            
-            X.addEvent(win, 'resize', function () {
+
+            X.addEvent(win, 'orientationchange', function () {
                 Z.ShowLoading(loadingObj, currObj, autoTryHiddenLoadingDelay);
-                if (parseInt(X.$(currItemCountID).value) > 0) {
+                if (currObj.getCurrParam().options.currItemCount > 0) {
                     clearInterval(_windowResizeTimeout);
                     _windowResizeTimeout = setTimeout(function () {
                         //window.location.reload();
                         //currObj.clearItems();
-                       
                         Z.ClearContainItems(container, loadingObj, currObj);
                         Z.LoadFirstPage(loadingObj, currObj);
                     }, delay);
@@ -112,11 +110,9 @@
             if (nbw) {
                 var delay_w = options.WindowResizeInfo.delay;
                 var autoTryHiddenLoadingDelay = options.WindowResizeInfo.autoTryHiddenLoadingDelay;
-                var itemCountSelector = options.WindowResizeInfo.itemCountSelector;
                 var container = options.WindowResizeInfo.container;
-                
+
                 Z.BindWindowResize({
-                    currItemCountID: itemCountSelector,
                     loadingObj: lo,
                     currObj: co,
                     delay: delay_w,
@@ -125,10 +121,23 @@
                 });
             }
         },
+        //清空容器内现有项目
         ClearContainItems: function (container, loadingObj, currObj) {
             Z.HiddenLoading(loadingObj, currObj);
             container.innerHTML = '';
             currObj.initParam();
+        },
+        //获取传输参数
+        GetQueryString: function (currObj) {
+            var params = currObj.getCurrParam();
+            var options = params.options;
+            
+            var queryData = new Array(4);
+            queryData.push('ImageWidth=' + options.columnWidth);
+            queryData.push('PageNumber=' + options.currPageNum);
+            queryData.push('CurrItemCount=' + options.currItemCount);
+            queryData.push('ScrollTop=' + options.currScrollTop);
+            return queryData.join('&');
         }
     };
     win.Z = Z;

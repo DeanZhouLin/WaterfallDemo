@@ -3,6 +3,7 @@
     var options;
     var _this;
     var container;
+
     var Waterfall = function (obj, opts) {
         options = opts;
         container = obj;
@@ -16,13 +17,25 @@
             X.addEvent(win, 'scroll', this.scrollHandler);
         },
         initParam: function () {
-          
+            options.currPageNum = 1;
+            options.currItemCount = 0;
+            options.currScrollTop = PageInfo.GetScrollTop();
+            options.currScrollHeight = PageInfo.GetScrollHeight();
+            options.currwindowHeight = PageInfo.GetWindowHeight();
             var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
             options.columnWidth = t.ImageWidth;
             options.columnSpace = t.ColumnSpace;
             options.columnCount = t.ColumnCount;
             hList = new Array(options.columnCount);
             hList = (hList.join(',').replace(/,/g, '0|') + '0').split('|');
+        },
+        getCurrParam: function () {
+            return { options: options, hList: hList, container: container, currObj: _this };
+        },
+        setCurrOptions: function (conditions) {
+            for (var item in conditions) {
+                options[item] = conditions[item];
+            }
         },
         setLoading: function (isLoading) {
             _this.loading = isLoading;
@@ -31,6 +44,14 @@
             return _this.loading;
         },
         scrollHandler: function () {
+            _this.setCurrOptions({
+                currScrollTop: PageInfo.GetScrollTop(),
+                currwindowHeight: PageInfo.GetWindowHeight(),
+                currScrollHeight:PageInfo.GetScrollHeight()
+            });
+            var opts = options;
+            X.$('lblInfo').innerHTML = opts.currPageNum + "," + opts.currItemCount + "," + opts.currScrollTop + "," + opts.currwindowHeight + "," + opts.currScrollHeight;
+            X.$('lblInfo').innerHTML += "," + opts.columnCount + "," + opts.columnSpace + "," + opts.columnWidth;
             if (_this.getLoading()) {
                 return;
             }
@@ -49,7 +70,7 @@
             try {
                 if (obj == null) {
                     return;
-                }            
+                }
                 var columnWidth = options.columnWidth;
                 var columnSpace = options.columnSpace;
                 var iList = X.getByClass(options.itemSelector, obj);
@@ -62,7 +83,8 @@
                         item.style.position = 'absolute';
                         item.style.left = minIndex * (columnWidth + columnSpace) + columnSpace + 'px';
                         item.style.top = top + 'px';
-                        hList[minIndex] = top + item.offsetHeight;
+                        item.style.width = columnWidth + 'px';
+                        hList[minIndex] = top + 4 + item.offsetHeight;
                     }
                 });
             } catch (e) {
@@ -92,5 +114,4 @@
     };
     win.Waterfall = Waterfall;
 })(window);
-
 
