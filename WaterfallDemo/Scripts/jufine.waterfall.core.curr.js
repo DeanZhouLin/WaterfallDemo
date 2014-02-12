@@ -79,15 +79,16 @@
 
             //orientationchange
 
-            X.addEvent(win, 'orientationchange', function () {
-                Z.ShowLoading(loadingObj, currObj, autoTryHiddenLoadingDelay);
+            X.addEvent(win, 'resize', function () {
+                //Z.ShowLoading(loadingObj, currObj, autoTryHiddenLoadingDelay);
                 if (currObj.getCurrParam().options.currItemCount > 0) {
                     clearInterval(_windowResizeTimeout);
                     _windowResizeTimeout = setTimeout(function () {
                         //window.location.reload();
                         //currObj.clearItems();
-                        Z.ClearContainItems(container, loadingObj, currObj);
-                        Z.LoadFirstPage(loadingObj, currObj);
+                        currObj.arrangeAll();
+                        //Z.ClearContainItems(container, loadingObj, currObj);
+                        //Z.LoadFirstPage(loadingObj, currObj);
                     }, delay);
                 }
             });

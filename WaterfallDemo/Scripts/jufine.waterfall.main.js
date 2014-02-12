@@ -47,7 +47,7 @@
             _this.setCurrOptions({
                 currScrollTop: PageInfo.GetScrollTop(),
                 currwindowHeight: PageInfo.GetWindowHeight(),
-                currScrollHeight:PageInfo.GetScrollHeight()
+                currScrollHeight: PageInfo.GetScrollHeight()
             });
             var opts = options;
             X.$('lblInfo').innerHTML = opts.currPageNum + "," + opts.currItemCount + "," + opts.currScrollTop + "," + opts.currwindowHeight + "," + opts.currScrollHeight;
@@ -65,6 +65,18 @@
             options.load(function (obj) {
                 _this.arrange(obj);
             });
+        },
+        arrangeAll: function () {
+            options.currScrollHeight = PageInfo.GetScrollHeight();
+            options.currwindowHeight = PageInfo.GetWindowHeight();
+            var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
+            options.columnWidth = t.ImageWidth;
+            options.columnSpace = t.ColumnSpace;
+            options.columnCount = t.ColumnCount;
+            hList = new Array(options.columnCount);
+            hList = (hList.join(',').replace(/,/g, '0|') + '0').split('|');
+            container.innerHTML = container.innerHTML;
+            _this.arrange(container); 
         },
         arrange: function (obj) {
             try {
@@ -84,6 +96,7 @@
                         item.style.left = minIndex * (columnWidth + columnSpace) + columnSpace + 'px';
                         item.style.top = top + 'px';
                         item.style.width = columnWidth + 'px';
+                        imgList[i].style.width = columnWidth + 'px';
                         hList[minIndex] = top + 4 + item.offsetHeight;
                     }
                 });
