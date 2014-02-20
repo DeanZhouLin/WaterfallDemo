@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "主页";
+}
+
+<div class="contentBar" id="cb" style="display: block">
+    <h4>@ViewBag.Message <a href="@ViewBag.Url" target="_blank">瀑布流布局</a></h4>
+    <div>
+        <label id="lblInfo"></label>
+    </div>
+</div>
+
+@*瀑布流布局*@
+<div id="waterfallDemo" style="width: 100%;">
+    @* 放置瀑布流条目的容器*@
+    <div id="container" style="width: 100%;">
+    </div>
+    @* 显示数据加载中的图片*@
+    <div id="loading" style="display: none;">
+        <div style="text-align:center;padding:10px 0; color:#999;"><img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///zMzM+Li4tra2u7u7jk5OTMzM1hYWJubm4CAgMjIyE9PT29vb6KiooODg8vLy1JSUjc3N3Jycuvr6+Dg4Pb29mBgYOPj4/X19cXFxbOzs9XV1fHx8TMzMzMzMzMzMyH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7" alt=""><br>Loading...</div>
+    </div>
+</div>
+
+<script src="../../Scripts/jquery-1.7.1.min.js"></script>
+@*引入js*@
+<script src="../../Scripts/imagesloaded.pkgd.min.js"></script>
+<script src="../../Scripts/masonry.pkgd.min.js"></script>
+<script src="../../Scripts/jufine.waterfall.pageInfo.js"></script>
+<script src="../../Scripts/jufine.waterfall.core.curr.js"></script>
+@*引入样式*@
+<link href="../../Content/jufine.waterfall.css" rel="stylesheet" />
+<link href="../../Content/SiteUseMasonry.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+    var loading = document.querySelector("#loading");
+    var container = document.querySelector("#container");
+    container.style.marginTop = document.querySelector("#cb").offsetHeight + 'px';
+
+    var currPageNum = 0;
+    var currItemCount = 0;
+    var currScrollTop = PageInfo.GetScrollTop();
+
+    var winHeight = PageInfo.GetWindowHeight();
+    var winWidth = PageInfo.GetWindowWidth();
+    var conWidth = container.offsetWidth;
+    var execCalLen = Math.min(winHeight, winWidth);
+    var execConLen = execCalLen - Math.min(Math.abs(winHeight - conWidth), Math.abs(winWidth - conWidth));
+    var imageWidth = PageInfo.GetImageWidthAndColumnSpace(execConLen, 300, 10).ImageWidth;
+
+    var msnry = new Masonry(container, {
+        itemSelector: '.item',
+        transitionDuration: '0.50s',
+        gutter: 10
+    });
+
+    Masonry.prototype.getLoading = function () {
+        return false;
+    };
+    Masonry.prototype.setLoading = function (isLoading) {
+        return isLoading;
+    };
+    Masonry.prototype.loadData = function () {
+        if (Z.CheckLoading(loading, msnry)) {
+            return;
+        }
+        Z.ShowLoading(loading, msnry, 15000);
+        currScrollTop = PageInfo.GetScrollTop();
+
+        $.ajax({
+            url: 'GetWaterfallImageInfos',
+            type: "GET",
+            data: { imageWidth: imageWidth, PageNumber: currPageNum, CurrItemCount: currItemCount, ScrollTop: currScrollTop },
+            dataType: "json",
+            success: function (data) {
+                var div = document.createElement('div');
+                div.style.display = 'none';
+                for (var i = 0; i < data.photos.length; i++) {
+                    var item = document.createElement('a');
+                    item.className = 'item';
+                    item.style.width = imageWidth + 'px';
+                    item.style.marginTop = '10px';
+                    item.innerHTML = '<span class="img"><img src="' + data.photos[i].src + '"/></span>';
+                    item.innerHTML += '<span class="text" style="width:100%">' + data.photos[i].title + '</span>';
+                    div.appendChild(item);
+                }
+                container.appendChild(div);
+
+                imagesLoaded(container, function () {
+                    div.style.display = '';
+                    msnry.appended(div);
+                    msnry.layout();
+                    Z.HiddenLoading(loading, msnry);
+                    currPageNum++;
+                    currItemCount += data.pageCount;
+                    currScrollTop = data.scrollTop;
+                    ShowMsg();
+                    //Masonry.data(container).layout();
+                });
+            }
+        });
+    };
+
+    Z.BindEvent(window, 'scroll', function () {
+        if (PageInfo.GetDistanceToBottom() <= 100) {
+            msnry.loadData();
+        }
+    });
+
+    Z.LoadFirstPage(loading, msnry);
+
+    function ShowMsg() {
+        $('#lblInfo').html('imageWidth:' + imageWidth + ',PageNumber:' + currPageNum + ',CurrItemCount:' + currItemCount + ',ScrollTop:' + currScrollTop);
+    }
+
+    ShowMsg();
+</script>

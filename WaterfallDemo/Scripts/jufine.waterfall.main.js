@@ -22,7 +22,7 @@
             options.currScrollTop = PageInfo.GetScrollTop();
             options.currScrollHeight = PageInfo.GetScrollHeight();
             options.currwindowHeight = PageInfo.GetWindowHeight();
-            var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
+            var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth,250,15);
             options.columnWidth = t.ImageWidth;
             options.columnSpace = t.ColumnSpace;
             options.columnCount = t.ColumnCount;
@@ -69,7 +69,7 @@
         arrangeAll: function () {
             options.currScrollHeight = PageInfo.GetScrollHeight();
             options.currwindowHeight = PageInfo.GetWindowHeight();
-            var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth);
+            var t = PageInfo.GetImageWidthAndColumnSpace(container.offsetWidth,250,15);
             options.columnWidth = t.ImageWidth;
             options.columnSpace = t.ColumnSpace;
             options.columnCount = t.ColumnCount;

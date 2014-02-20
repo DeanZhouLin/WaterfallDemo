@@ -36,12 +36,13 @@
                     PageInfo.SetScrollTop(setScrollTop);
                 }
             });
-            X.$("waterfallDemo").style.marginTop = X.$("cb").offsetHeight + "px";
         },
         //第一次加载数据
         LoadFirstPage: function (loadingObj, currObj) {
             PageInfo.SetInterval(function () {
+
                 if (!Z.CheckLoading(loadingObj, currObj)) {
+
                     currObj.loadData();
                 }
             }, function () {
@@ -132,13 +133,22 @@
         GetQueryString: function (currObj) {
             var params = currObj.getCurrParam();
             var options = params.options;
-            
+
             var queryData = new Array(4);
             queryData.push('ImageWidth=' + options.columnWidth);
             queryData.push('PageNumber=' + options.currPageNum);
             queryData.push('CurrItemCount=' + options.currItemCount);
             queryData.push('ScrollTop=' + options.currScrollTop);
             return queryData.join('&');
+        },
+        BindEvent: function (node, type, fn) {
+            if (node.addEventListener) {
+                node.addEventListener(type, fn, false);
+            } else if (node.attachEvent) {
+                node.attachEvent('on' + type, fn);
+            } else {
+                node['on' + type] = fn;
+            }
         }
     };
     win.Z = Z;

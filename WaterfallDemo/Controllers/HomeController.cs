@@ -14,6 +14,18 @@ namespace WaterfallDemo.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult IndexUseMasonry()
+        {
+            ViewBag.Message = "瀑布流布局Demo(使用Masonry)-参考资料：";
+            ViewBag.Url = "http://masonry.desandro.com/";
+            return View();
+        }
+
+        public ActionResult Test()
+        {
+            return Content("jklafdlkjasdf");
+        }
+
         public ActionResult Index()
         {
             ViewBag.Message = "瀑布流布局Demo-参考资料：";
@@ -23,8 +35,8 @@ namespace WaterfallDemo.Controllers
 
         public ActionResult GetWaterfallImageInfos()
         {
-            //Thread.Sleep(5000);
-            const int getCount = 10;
+            Thread.Sleep(3000);
+            const int getCount = 30;
 
             dynamic requestData = new ExpandoObject();
             requestData.PageNumber = Request["PageNumber"];

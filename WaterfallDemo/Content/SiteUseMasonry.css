@@ -1,0 +1,47 @@
+﻿
+/* 背景色和背景图 */
+body {
+    background-color: #fff;
+    /*background-image: url(http://www.niumowang.org/demo/infinite/images/bg.png);*/
+    background-image: url("../../images/bg.png");
+    background-repeat: repeat;
+}
+/* 侧栏：文字色和分割线颜色 */
+.b1 {
+    border-color: #96999D;
+}
+
+.item {
+    z-index: 1;
+    position: relative;
+    display: block;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.item:hover {
+    box-shadow: 0 1px 5px rgba(34, 25, 25, .8);
+    -moz-box-shadow: 0 1px 5px rgba(34, 25, 25, .8);
+    -webkit-box-shadow: 0 1px 5px rgba(34, 25, 25, .8);
+    filter: progid:DXImageTransform.Microsoft.Shadow(color = #979797, direction = 135, strength = 3);
+}
+
+.text {
+    display: block;
+    width: 200px;
+    overflow: hidden;
+    margin: 15px auto 10px;
+    line-height: 21px;
+    color: #aaa;
+    cursor: pointer;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.img {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}

@@ -62,12 +62,9 @@
             return arrayPageSize;
         },
         //根据容器的实际宽度，获取Image的宽度和ColumnSpace的值
-        GetImageWidthAndColumnSpace: function (containerWidth) {
-            //var ColumnSpace = containerWidth * 0.01;
-            var ColumnSpace = 15;
+        GetImageWidthAndColumnSpace: function (containerWidth, expectImageWidth, columnSpace) {
+            var ColumnSpace = columnSpace;
             var ImageWidth;
-            //期望的图片宽度
-            var expectImageWidth = 250;
             //期望的列数
             var expectMinObjectCount = 3;
             //根据期望列数和间隔计算当前图片宽度
@@ -143,6 +140,10 @@
         GetWindowHeight: function getWindowHeight() {
             return document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight : document.body.clientHeight;
         },
+        //浏览器视口的高度
+        GetWindowWidth: function getWindowHeight() {
+            return document.compatMode == "CSS1Compat" ? document.documentElement.clientWidth : document.body.clientWidth;
+        },
         //检查是否已经滚动到底部 
         IsInBottom: function (fn) {
             //文档的总高度
@@ -153,13 +154,23 @@
             var windowHeight = PageInfo.GetWindowHeight();
             var res = false;
 
-            if (Math.abs(scrollTop + windowHeight - scrollHeight) < windowHeight * 0.1) {  
+            if (Math.abs(scrollTop + windowHeight - scrollHeight) < windowHeight * 0.1) {
                 res = true;
             }
             if (fn != null) {
                 fn(res) && fn(res, scrollHeight) && fn(res, scrollHeight, scrollTop, windowHeight);
             }
             return res;
+        },
+        GetDistanceToBottom: function () {
+            //文档的总高度
+            var scrollHeight = PageInfo.GetScrollHeight();
+            //滚动条在Y轴上的滚动距离
+            var scrollTop = PageInfo.GetScrollTop();
+            //浏览器视口的高度
+            var windowHeight = PageInfo.GetWindowHeight();
+            return Math.abs(scrollTop + windowHeight - scrollHeight);
+
         }
     };
     win.PageInfo = PageInfo;
