@@ -66,7 +66,7 @@
             var ColumnSpace = columnSpace;
             var ImageWidth;
             //期望的列数
-            var expectMinObjectCount = 3;
+            var expectMinObjectCount = 2;
             //根据期望列数和间隔计算当前图片宽度
             var desiredImageWidth = (containerWidth - (expectMinObjectCount + 1) * ColumnSpace) / expectMinObjectCount;
             //将最终的图片宽度设置为 期望图片宽度 和 计算出的图片宽度 中较小的一个

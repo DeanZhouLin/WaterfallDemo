@@ -58,6 +58,9 @@ namespace WaterfallDemo.Controllers
                 int ran = buffBytes[i] % 16;
                 dynamic dyTemp = new ExpandoObject();
                 string path = AppDomain.CurrentDomain.BaseDirectory + "images\\" + ran + ".jpg";
+                dyTemp.bigSrc = path;
+                string bigSrc = dyTemp.bigSrc.Replace(AppDomain.CurrentDomain.BaseDirectory, "../../");
+                dyTemp.bigSrc = bigSrc;
                 dyTemp.src = ImageUtil.CropImage(path, Convert.ToInt32(requestData.ImageWidth));
                 string src = dyTemp.src.Replace(AppDomain.CurrentDomain.BaseDirectory, "../../");
                 dyTemp.src = src;

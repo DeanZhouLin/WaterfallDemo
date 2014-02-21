@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "IndexForBootstrapTest";
+    Layout = "~/Views/Shared/_LayoutForBootstrapTest.cshtml";
+}
+
+
+
+<div class="jumbotron">
+    <div class="page-header">
+        <h1>Example page header <small>Subtext for header</small></h1>
+    </div>
+    <p>
+        <a href="#">
+            <img src="../../images\239\1.jpg" class="img-rounded" style="width: 239px" alt="Responsive image" />
+            <span class="badge">42</span></a>
+        <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-star"></span>Star
+        </button>
+    </p>
+    <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+
+</div>
+
+<h2 class="text-left"><em>This is Em</em> h2. Bootstrap heading <small>Secondary text</small></h2>
+<h3 class="text-right">h3. Bootstrap heading <small>Third Text</small></h3>
+<h6>h6. Bootstrap heading <b>b 表示在不增加额外重要性的同时将词或短语高亮显示，</b><i> i 大部分用于发言、技术短语等情况</i></h6>
+
+<a class="sr-only" href="#content">Skip to main content!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</a>
+
+<p class="text-muted">text-muted...</p>
+<p class="text-primary">text-primary...</p>
+<p class="text-success">text-success...</p>
+<p class="text-info">text-info...</p>
+<p class="text-warning">text-warning...</p>
+<p class="text-danger">text-danger...</p>
+
+<blockquote class="pull-right">
+    <p>将任何HTML裹在blockquote之中即可表现为引用对于直接引用，我们建议用p标签Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+    <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+</blockquote>
+
+<abbr onclick="window.open('http://www.baidu.com')" style="cursor: pointer" title="如想看完整的内容可把鼠标悬停在缩略语上, 但需要包含title属性。">基本缩略语 </abbr>
+
+<div id="content">
+    <div class="row">
+        <div class="col-lg-7">.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1.col-lg-1</div>
+        <div class="col-lg-1">.col-lg-2</div>
+        <div class="col-lg-1">.col-lg-3</div>
+        <div class="col-lg-1">.col-lg-4</div>
+        <div class="col-lg-1">.col-lg-5</div>
+        <div class="col-lg-1">.col-lg-6</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">.col-lg-8</div>
+        <div class="col-lg-4">.col-lg-4</div>
+    </div>
+</div>
+
+<ol>
+    <li>2312</li>
+    <li>2312</li>
+    <li>2312</li>
+</ol>
+
+<dl>
+    <dt>Description lists</dt>
+    <dd>A description list is perfect for defining terms....</dd>
+</dl>
+<dl class="dl-horizontal">
+    <dt>Description lists</dt>
+    <dd>A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....</dd>
+</dl>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+    <li><a href="#profile" data-toggle="tab">Profile</a></li>
+    <li><a href="#messages" data-toggle="tab">Messages</a></li>
+    <li><a href="#settings" data-toggle="tab">Settings</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="home">Home</div>
+    <div class="tab-pane" id="profile">Profile</div>
+    <div class="tab-pane" id="messages">Messages</div>
+    <div class="tab-pane" id="settings">Settings</div>
+</div>
+
+<script>
+    //$(function() {
+    //    $('#myTab a:last').tab('show');
+    //});
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        e.target; // activated tab
+        e.relatedTarget; // previous tab
+        alert(' e.target：' + e.target + ', e.relatedTarget: ' + e.relatedTarget);
+    });
+    
+</script>
+
+<pre>基本代码块(多行代码)&lt;p&gt;Sample text here...&lt;/p&gt;A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....A description list is perfect for defining terms....</pre>
+<code>内联代码&lt;section&gt;asdfasdfasdfasdfasdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</code>
+<form role="form" action="IndexForBootstrapTest" method="POST">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputFile">File input</label>
+        <input type="file" id="exampleInputFile" name="inputFile">
+        <p class="help-block">Example block-level help text here.</p>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="isCheckedOut">
+            Check me out
+        </label>
+    </div>
+    <div class="form-group has-success">
+        <label class="control-label" for="inputSuccess">Input with success</label>
+        <input type="text" class="form-control" id="inputSuccess">
+    </div>
+    <textarea class="form-control" rows="3" name="info"></textarea>
+    <button type="submit" class="btn btn-default text-center">Submit</button>
+</form>
+<!-- Standard button -->
+<button type="button" class="btn btn-default btn-lg">Default</button>
+
+<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+<button type="button" class="btn btn-primary  btn-block">Primary</button>
+
+<!-- Indicates a successful or positive action -->
+<button type="button" class="btn btn-success">Success</button>
+
+<!-- Contextual button for informational alert messages -->
+<button type="button" class="btn btn-info">Info</button>
+
+<!-- Indicates caution should be taken with this action -->
+<button type="button" class="btn btn-warning">Warning</button>
+
+<!-- Indicates a dangerous or potentially negative action -->
+<button type="button" class="btn btn-danger">Danger</button>
+
+<!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
+<button type="button" class="btn btn-link">Link</button>
+<ul class="pager">
+    <li><a href="#">&laquo;</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">&raquo;</a></li>
+</ul>
+<span class="label label-default">Default</span>
+<span class="label label-primary">Primary</span>
+<span class="label label-success">Success</span>
+<span class="label label-info">Info</span>
+<span class="label label-warning">Warning</span>
+<span class="label label-danger">Danger</span>
+
+<a href="#">Inbox <span class="badge">42</span></a>
+
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+<button class="btn btn-primary btn-lg" onclick="ShowModel()">
+    Launch demo modal By Hand
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script type="text/javascript">
+    function ShowModel() {
+        $('#myModal').modal({
+            keyboard: false,
+            backdrop: 'static',
+            show: true,
+            remote: 'IndexForBootstrapTest'
+        });
+        //$('#myModal').modal('show');
+    }
+</script>
+<hr>
+<address class="text-right">
+    <strong>Twitter, Inc.</strong><br>
+    795 Folsom Ave, Suite 600<br>
+    San Francisco, CA 94107<br>
+    <abbr title="Phone">P:</abbr>
+    (123) 456-7890
+</address>
+
+<address class="text-right">
+    <strong>Full Name</strong><br>
+    <a href="mailto:#">first.last@example.com</a>
+</address>

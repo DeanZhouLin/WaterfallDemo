@@ -15,20 +15,26 @@ body {
     z-index: 1;
     position: relative;
     display: block;
-    background-color: #fff;
     cursor: pointer;
+    background-color: #ffffff;
 }
 
 .item:hover {
-    box-shadow: 0 1px 5px rgba(34, 25, 25, .8);
-    -moz-box-shadow: 0 1px 5px rgba(34, 25, 25, .8);
-    -webkit-box-shadow: 0 1px 5px rgba(34, 25, 25, .8);
+   -moz-box-shadow:0px 0px 20px #4F4F4F; 
+   -webkit-box-shadow:0px 0px 20px #4F4F4F; 
+   box-shadow:0px 0px 20px #4F4F4F;
     filter: progid:DXImageTransform.Microsoft.Shadow(color = #979797, direction = 135, strength = 3);
+}
+
+.title {
+    margin-top: 10px;
+    padding-top: 12px;
+    padding-right: 12px;
+    color: #666;
 }
 
 .text {
     display: block;
-    width: 200px;
     overflow: hidden;
     margin: 15px auto 10px;
     line-height: 21px;

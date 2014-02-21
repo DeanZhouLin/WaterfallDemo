@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>BootstrapDemo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 最新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <link rel="shortcut icon" href="http://v3.bootcss.com/docs-assets/ico/favicon.png">
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+        body {
+            padding-top: 70px;
+        }
+    </style>
+</head>
+<body>
+    <div id="Page">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">固定导航条布局Demo</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    @RenderSection("header", false)
+                </div>
+            </div>
+        </div>
+        <!--内容部分-->
+        <div class="container">
+            @RenderBody()
+        </div>
+
+        <div class="modal fade" id="lodingModal" tabindex="-1" role="dialog" aria-labelledby="数据加载中" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="text-align:center;padding:10px 0;color:#999;">
+                        <img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///zMzM+Li4tra2u7u7jk5OTMzM1hYWJubm4CAgMjIyE9PT29vb6KiooODg8vLy1JSUjc3N3Jycuvr6+Dg4Pb29mBgYOPj4/X19cXFxbOzs9XV1fHx8TMzMzMzMzMzMyH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7" alt="">
+                        <br>
+                        Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div id="footer">
+            @RenderSection("footer", false)
+            <div class="text-center">
+                <p>
+                    Copyright©2012-2014 上海聚好信息技术有限公司版权所有 沪ICP备12036357
+                </p>
+                <div>
+                    <a href="http://www.zx110.org/" target="_blank">
+                        <img src="http://www.1juhao.com/Content/Images/global/zx110.png" height="40px" width="90px" alt="网络公安"></a>
+                    <a href="http://www.miibeian.gov.cn/" target="_blank">
+                        <img src="http://www.1juhao.com/Content/Images/global/ForReference.png" height="40px" width="108px" alt="沪ICP备12036357"></a>
+                    <a href="http://www.sgs.gov.cn/lz/licenseLink.do?method=licenceView&amp;entyId=20130427102349599" target="_blank">
+                        <img src="http://www.1juhao.com/Content/Images/global/gongshang.jpg" height="40px" width="108px" alt="工商"></a>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    function ShowModel() {
+        $('#lodingModal').modal({
+            keyboard: false,
+            backdrop: 'static',
+            show: true,
+            remote: 'IndexForBootstrapTest'
+        });
+        //$('#myModal').modal('show');
+    }
+
+    function HiddenModel() {
+        $('#lodingModal').modal('hide');
+        //$('#myModal').modal('show');
+    }
+
+</script>
+</html>

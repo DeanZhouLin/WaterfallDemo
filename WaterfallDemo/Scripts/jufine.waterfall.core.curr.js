@@ -2,11 +2,15 @@
     var Z = win["Z"] || {};
     var _autoHiddenLoadingTimeout;
     var _windowResizeTimeout;
-
+    var _isLoading = false;
+    
     Z = {
         //检查当前数据是否在加载中
         CheckLoading: function (loadingObj, currObj) {
             return loadingObj.style.display == "" || currObj.getLoading();
+        },
+        CheckDialogLoading: function () {
+            return _isLoading;
         },
         //隐藏数据加载中
         HiddenLoading: function (loadingObj, currObj) {
@@ -15,6 +19,13 @@
             }
             currObj.setLoading(false);
             loadingObj.style.display = "none";
+        },
+        HiddenDialogLoading: function () {
+            if (!Z.CheckDialogLoading()) {
+                return;
+            }
+            _isLoading = false;
+            HiddenModel();
         },
         //显示数据加载中
         ShowLoading: function (loadingObj, currObj, delay) {
@@ -26,6 +37,20 @@
             }
             _autoHiddenLoadingTimeout = window.setTimeout(function () {
                 Z.HiddenLoading(loadingObj, currObj);
+            }, delay);
+        },
+        ShowDialogLoading: function (delay) {
+            if (Z.CheckDialogLoading()) {
+                return;
+            }
+            ShowModel();
+            _isLoading = true;
+            //在显示数据加载中delay秒以后，尝试自动取消掉数据加载   
+            if (_autoHiddenLoadingTimeout != undefined) {
+                clearTimeout(_autoHiddenLoadingTimeout);//取消掉不必要的定时器
+            }
+            _autoHiddenLoadingTimeout = window.setTimeout(function () {
+                Z.HiddenDialogLoading();
             }, delay);
         },
         //结束数据加载
@@ -40,12 +65,13 @@
         //第一次加载数据
         LoadFirstPage: function (loadingObj, currObj) {
             PageInfo.SetInterval(function () {
-
                 if (!Z.CheckLoading(loadingObj, currObj)) {
-
                     currObj.loadData();
                 }
             }, function () {
+                var scrollHeight = PageInfo.GetScrollHeight();
+                var windowHeight = PageInfo.GetWindowHeight();
+                
                 return PageInfo.GetScrollHeight() > PageInfo.GetWindowHeight();
             }, 1000);
         },
