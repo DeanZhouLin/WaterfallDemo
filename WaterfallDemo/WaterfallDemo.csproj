@@ -99,12 +99,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\FixedTopNavbarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BootstrapController.cs" />
+    <Compile Include="Controllers\MasonryHeadViewController.cs" />
     <Compile Include="Controllers\WaterfallController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MasonryHeadView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,10 +275,12 @@
     <Content Include="Views\Bootstrap\NavbarFixedTop.cshtml" />
     <Content Include="Views\Shared\_LayoutForNavbarFixedTop.cshtml" />
     <Content Include="Views\Waterfall\WaterfallUseFixedTemplete.cshtml" />
+    <Content Include="Views\Shared\_Layout_FixedTopNavbar.cshtml" />
+    <Content Include="Views\FixedTopNavbar\Index.cshtml" />
+    <Content Include="Views\MasonryHeadView\MasonryHeadViewPartical.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
