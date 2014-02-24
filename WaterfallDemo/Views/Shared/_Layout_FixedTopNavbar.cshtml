@@ -1,0 +1,201 @@
+﻿@using WaterfallDemo.Models
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>固定导航栏模板</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- 最新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
+    @* 网站logo*@
+    <link rel="shortcut icon" href="http://v3.bootcss.com/docs-assets/ico/favicon.png">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="http://cdn.bootcss.com/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js"></script>
+    <script src="http://cdn.bootcss.com/masonry/3.1.2/masonry.pkgd.min.js"></script>
+    @*画图js*@
+    <script src="http://cdn.bootcss.com/Chart.js/0.2.0/Chart.min.js"></script>
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+        body {
+            padding-top: 70px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="Page">
+        <!-- NAVBAR ================================================== -->
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">固定导航栏模板</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../navbar/">Default</a></li>
+                        <li><a href="../navbar-static-top/">Static top</a></li>
+                        <li class="active"><a href="./">Fixed top</a></li>
+                    </ul>
+                    @RenderSection("header", false)
+                </div>
+            </div>
+        </div>
+
+        <!--内容部分-->
+        <div class="container">
+            <!-- Carousel ================================================== -->
+            <div class="row">
+                <div class="col-10">
+                    <div class="carousel slide" data-ride="carousel" id="carousel-38643">
+                        <ol class="carousel-indicators">
+                            <li data-slide-to="0" data-target="#carousel-38643" class="active"></li>
+                            <li data-slide-to="1" data-target="#carousel-38643"></li>
+                            <li data-slide-to="2" data-target="#carousel-38643"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img alt="" src="http://www.bootcss.com/p/layoutit/img/1.jpg" />
+                                <div class="carousel-caption">
+                                    <h4>棒球
+                                    </h4>
+                                    <p>
+                                        棒球运动是一种以棒打球为主要特点，集体性、对抗性很强的球类运动项目，在美国、日本尤为盛行。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img alt="" src="http://www.bootcss.com/p/layoutit/img/2.jpg" />
+                                <div class="carousel-caption">
+                                    <h4>冲浪
+                                    </h4>
+                                    <p>
+                                        冲浪是以海浪为动力，利用自身的高超技巧和平衡能力，搏击海浪的一项运动。运动员站立在冲浪板上，或利用腹板、跪板、充气的橡皮垫、划艇、皮艇等驾驭海浪的一项水上运动。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img alt="" src="http://www.bootcss.com/p/layoutit/img/3.jpg" />
+                                <div class="carousel-caption">
+                                    <h4>自行车
+                                    </h4>
+                                    <p>
+                                        以自行车为工具比赛骑行速度的体育运动。1896年第一届奥林匹克运动会上被列为正式比赛项目。环法赛为最著名的世界自行车锦标赛。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <a data-slide="prev" href="#carousel-38643" class="left carousel-control">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a data-slide="next" href="#carousel-38643" class="right carousel-control">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @{
+                var list = new List<MasonryHeadView>();
+                for (int i = 0; i < 10; i++)
+                {
+                    var mhv = new MasonryHeadView { ViewCssClasss = "col-xs-4 col-sm-4 col-md-3 col-lg-3" };
+                    int temp = new Random().Next(i, 1000);
+                    switch (temp % 3)
+                    {
+                        case 0: mhv.ImageInfo.Src = "http://www.bootcss.com/p/layoutit/img/people.jpg";
+                            break;
+                        case 1: mhv.ImageInfo.Src = "http://www.bootcss.com/p/layoutit/img/sports.jpg";
+                            break;
+                        case 2: mhv.ImageInfo.Src = "http://www.bootcss.com/p/layoutit/img/city.jpg";
+                            break;
+                        default:
+                            mhv.ImageInfo.Src = "http://www.bootcss.com/p/layoutit/img/sports.jpg";
+                            break;
+                    }
+
+                    mhv.ImageInfo.Alt = "This is Alt" + i;
+                    dynamic t = new System.Dynamic.ExpandoObject();
+                    t.Css = "visible-md visible-lg";
+                    t.Header = "冯诺尔曼结构";
+                    mhv.CaptionHeader.Add("h3", t);
+                    t = new System.Dynamic.ExpandoObject();
+                    t.Css = "visible-sm visible-xs";
+                    t.Header = "冯诺尔曼结构";
+                    mhv.CaptionHeader.Add("h5", t);
+
+                    t = new System.Dynamic.ExpandoObject();
+                    t.Css = "visible-md visible-lg";
+                    t.Content = " 也称普林斯顿结构，是一种将程序指令存储器和理位置";
+                    mhv.CaptionContent.Add("p1", t);
+                    t = new System.Dynamic.ExpandoObject();
+                    t.Css = "visible-sm visible-xs";
+                    t.Content = " 也称普林斯顿结构";
+                    mhv.CaptionContent.Add("p2", t);
+
+                    list.Add(mhv);
+                }
+            }
+
+            @Html.Partial("../MasonryHeadView/MasonryHeadViewPartical", list);
+
+            @RenderBody()
+        </div>
+        <div id="footer">
+            @RenderSection("footer", false)
+            <div class="text-center">
+                <p>
+                    Copyright©2012-2014 上海聚好信息技术有限公司版权所有 沪ICP备12036357
+                </p>
+                <div>
+                    <a href="http://www.zx110.org/" target="_blank">
+                        <img src="http://www.1juhao.com/Content/Images/global/zx110.png" height="40px" width="90px" alt="网络公安"></a>
+                    <a href="http://www.miibeian.gov.cn/" target="_blank">
+                        <img src="http://www.1juhao.com/Content/Images/global/ForReference.png" height="40px" width="108px" alt="沪ICP备12036357"></a>
+                    <a href="http://www.sgs.gov.cn/lz/licenseLink.do?method=licenceView&amp;entyId=20130427102349599" target="_blank">
+                        <img src="http://www.1juhao.com/Content/Images/global/gongshang.jpg" height="40px" width="108px" alt="工商"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

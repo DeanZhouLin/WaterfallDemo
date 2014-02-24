@@ -1,0 +1,39 @@
+﻿@model List<WaterfallDemo.Models.MasonryHeadView>
+<div class="row" id="masonryRowInfo" style="margin-top: 20px">
+    @foreach (var mhv in Model)
+    {
+        <div class="@mhv.ViewCssClasss item">
+            <div class="thumbnail">
+                <img alt="@mhv.ImageInfo.Alt" src="@mhv.ImageInfo.Src" />
+                <div class="caption">
+                    @foreach (var item in mhv.CaptionHeader)
+                    {
+                        string h = "<" + @item.Key + " class=\"" + @item.Value.Css + "\">" + @item.Value.Header + "</" + @item.Key + ">";
+                        @(new HtmlString(h));
+                    }
+                    @foreach (var item in mhv.CaptionContent.Values)
+                    {
+                        string p = "<p class=\"" + @item.Css + "\">" + @item.Content + "</p>";
+                        @(new HtmlString(p));
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        var masonryNode = $('#masonryRowInfo');
+        masonryNode.imagesLoaded(function () {
+            masonryNode.masonry({
+                itemSelector: '.item',
+                isFitWidth: false
+            });
+        });
+    });
+</script>
+
+
+

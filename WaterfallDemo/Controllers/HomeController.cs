@@ -77,6 +77,7 @@ namespace WaterfallDemo.Controllers
             dyData.scrollTop = requestData.ScrollTop;
 
             var json = JsonConvert.SerializeObject(dyData);
+
             return Content(json);
         }
     }
