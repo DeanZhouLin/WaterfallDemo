@@ -16,16 +16,15 @@
     </div>
     @* 显示数据加载中的图片*@
     <div id="loading" style="display: none;">
-        <div style="text-align:center;padding:10px 0;color:#999;">
+        <div style="text-align:center;padding:10px 0; color:#999;z-index: 200">
             <img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///zMzM+Li4tra2u7u7jk5OTMzM1hYWJubm4CAgMjIyE9PT29vb6KiooODg8vLy1JSUjc3N3Jycuvr6+Dg4Pb29mBgYOPj4/X19cXFxbOzs9XV1fHx8TMzMzMzMzMzMyH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7" alt="">
             <br>Loading...
         </div>
     </div>
 </div>
 
+<script src="../../Scripts/jquery-1.7.1.min.js"></script>
 @*引入js*@
-@*<script src="../../Scripts/jquery-1.7.1.js"></script>*@
-<script src="../../Scripts/customerAjax.js"></script>
 <script src="../../Scripts/imagesloaded.pkgd.min.js"></script>
 <script src="../../Scripts/masonry.pkgd.min.js"></script>
 <script src="../../Scripts/jufine.waterfall.pageInfo.js"></script>
@@ -33,13 +32,6 @@
 @*引入样式*@
 <link href="../../Content/jufine.waterfall.css" rel="stylesheet" />
 <link href="../../Content/SiteUseMasonry.css" rel="stylesheet" />
-
-<script type="text/javascript">
-    function ShowMsg() {
-        var value = 'imageWidth:' + imageWidth + ',PageNumber:' + currPageNum + ',CurrItemCount:' + currItemCount + ',ScrollTop:' + PageInfo.GetScrollTop();
-        document.getElementById('lblInfo').innerHTML = value;
-    }
-</script>
 
 <script type="text/javascript">
 
@@ -79,7 +71,7 @@
 
         $.ajax({
             url: 'GetWaterfallImageInfos',
-            type: "post",
+            type: "GET",
             data: { imageWidth: imageWidth, PageNumber: currPageNum, CurrItemCount: currItemCount, ScrollTop: currScrollTop },
             dataType: "json",
             success: function (data) {
@@ -88,13 +80,9 @@
                 for (var i = 0; i < data.photos.length; i++) {
                     var item = document.createElement('a');
                     item.className = 'item';
-                    //item.href = data.photos[i].bigSrc;
-                    item.target = '_blank';
                     item.style.width = imageWidth + 'px';
-
                     item.style.marginTop = '10px';
                     item.innerHTML = '<span class="img"><img src="' + data.photos[i].src + '"/></span>';
-                    item.innerHTML += '<span class="title" style="width:100%">标题</span>';
                     item.innerHTML += '<span class="text" style="width:100%">' + data.photos[i].title + '</span>';
                     div.appendChild(item);
                 }
@@ -125,6 +113,9 @@
 
     Z.LoadFirstPage(loading, msnry);
 
+    function ShowMsg() {
+        $('#lblInfo').html('imageWidth:' + imageWidth + ',PageNumber:' + currPageNum + ',CurrItemCount:' + currItemCount + ',ScrollTop:' + PageInfo.GetScrollTop());
+    }
+
     ShowMsg();
 </script>
-

@@ -21,7 +21,7 @@ namespace WaterfallDemo.Controllers
 
         public ActionResult GetWaterfallImageInfos1()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(300);
             const int getCount = 30;
 
             dynamic requestData = new ExpandoObject();

@@ -1,0 +1,17 @@
+﻿@model List<WaterfallDemo.Models.Tools.PanelInfo>
+@foreach (var panelInfo in Model)
+{
+    <div class="item">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">@panelInfo.Title</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><span class="img">
+                        <img src="@panelInfo.ImageSrc" class="img-rounded"/></span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

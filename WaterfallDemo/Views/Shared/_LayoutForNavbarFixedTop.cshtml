@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <title>BootstrapDemo</title>
+    <title>固定导航条布局Demo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
@@ -20,14 +20,9 @@
     <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
     <link rel="shortcut icon" href="http://v3.bootcss.com/docs-assets/ico/favicon.png">
-    <!-- Custom styles for this template -->
-    <style type="text/css">
-        body {
-            padding-top: 70px;
-        }
-    </style>
+
 </head>
-<body>
+<body style="padding-top: 70px">
     <div id="Page">
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
@@ -50,17 +45,6 @@
             @RenderBody()
         </div>
 
-        <div class="modal fade" id="lodingModal" tabindex="-1" role="dialog" aria-labelledby="数据加载中" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body" style="text-align:center;padding:10px 0;color:#999;">
-                        <img src="data:image/gif;base64,R0lGODlhEAALAPQAAP///zMzM+Li4tra2u7u7jk5OTMzM1hYWJubm4CAgMjIyE9PT29vb6KiooODg8vLy1JSUjc3N3Jycuvr6+Dg4Pb29mBgYOPj4/X19cXFxbOzs9XV1fHx8TMzMzMzMzMzMyH5BAkLAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7" alt="">
-                        <br>
-                        Loading...
-                    </div>
-                </div>
-            </div>
-        </div>
         @*<div id="footer">
             @RenderSection("footer", false)
             <div class="text-center">
@@ -79,23 +63,4 @@
         </div>*@
     </div>
 </body>
-
-<script type="text/javascript">
-
-    function ShowModel() {
-        $('#lodingModal').modal({
-            keyboard: false,
-            backdrop: 'static',
-            show: true,
-            remote: 'IndexForBootstrapTest'
-        });
-        //$('#myModal').modal('show');
-    }
-
-    function HiddenModel() {
-        $('#lodingModal').modal('hide');
-        //$('#myModal').modal('show');
-    }
-
-</script>
 </html>
