@@ -2,13 +2,16 @@
 <div class="row" id="masonryRowInfo" style="margin-top: 20px">
     @foreach (var mhv in Model)
     {
-        <div class="@mhv.ViewCssClasss item">
+        <div class="@mhv.ViewCssClasss item" >
             <div class="thumbnail">
-                <img alt="@mhv.ImageInfo.Alt" src="@mhv.ImageInfo.Src" />
-                <div class="caption">
+                <a href="@mhv.AHref" title="@mhv.ATitle" target="_blank">
+                    <img alt="@mhv.ImageInfo.Alt" class="img-rounded" src="@mhv.ImageInfo.Src"/>
+                </a>
+
+                <div class="caption" style="text-align: center">
                     @foreach (var item in mhv.CaptionHeader)
                     {
-                        string h = "<" + @item.Key + " class=\"" + @item.Value.Css + "\">" + @item.Value.Header + "</" + @item.Key + ">";
+                        string h = "<" + @item.Key + " class=\"" + @item.Value.Css + "\"> <a style=\"text-decoration:none;\" onmouseover=\"this.style.cssText='text-decoration:none;'\" onmouseout=\"this.style.cssText='text-decoration:none'\" href=" + @mhv.AHref + "  target=\"_blank\">" + @item.Value.Header + "<br><small>" + @item.Value.HeaderSmall + "</small></a></" + @item.Key + ">";
                         @(new HtmlString(h));
                     }
                     @foreach (var item in mhv.CaptionContent.Values)

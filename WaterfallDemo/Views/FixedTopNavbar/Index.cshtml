@@ -2,3 +2,42 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout_FixedTopNavbar.cshtml";
 }
+
+
+<canvas id="myChart">   
+</canvas>
+<canvas id="myChartBar">   
+</canvas>
+
+<script type="text/javascript">
+    function LineCanvas(cavID,data,options) {
+        var ctx = document.getElementById(cavID).getContext("2d");
+        new Chart(ctx).Line(data);
+    }
+    function BarCanvas(cavID, data, options) {
+        var ctx = document.getElementById(cavID).getContext("2d");
+        new Chart(ctx).Bar(data);
+    }
+    var data = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: [65, 59, 3, 81, 56, 55, 40]
+            },
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                data: [28, 48, 40, 19, 96, 27, 100]
+            }
+        ]
+    };
+
+    LineCanvas('myChart', data, {});
+    BarCanvas('myChartBar', data, {});
+</script>

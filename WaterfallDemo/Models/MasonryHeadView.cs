@@ -6,6 +6,8 @@ namespace WaterfallDemo.Models
     public class MasonryHeadView
     {
 
+        public string AHref { get; set; }
+        public string ATitle { get; set; }
 
         public string ViewCssClasss { get; set; }
         private readonly dynamic _imageInfo = new ExpandoObject();

@@ -233,6 +233,7 @@
     </Content>
     <Content Include="Scripts\imagesloaded.pkgd.min.js" />
     <Content Include="Scripts\JavaScript1.js" />
+    <Content Include="Scripts\JavaScript2.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -280,6 +281,7 @@
     <Content Include="Views\FixedTopNavbar\Index.cshtml" />
     <Content Include="Views\MasonryHeadView\MasonryHeadViewPartical.cshtml" />
     <Content Include="Views\Shared\InfoPanel.cshtml" />
+    <Content Include="Views\Shared\FooterPartical.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
